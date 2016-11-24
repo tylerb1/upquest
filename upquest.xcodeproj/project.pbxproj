@@ -7,19 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C9426E161DE645F80066CB0C /* DatabaseObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9426E151DE645F80066CB0C /* DatabaseObjects.swift */; };
 		C98C73F11DDD86FF00C2F6D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98C73F01DDD86FF00C2F6D9 /* AppDelegate.swift */; };
 		C98C73F31DDD86FF00C2F6D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98C73F21DDD86FF00C2F6D9 /* ViewController.swift */; };
 		C98C73F61DDD86FF00C2F6D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98C73F41DDD86FF00C2F6D9 /* Main.storyboard */; };
+		C98C73F91DDD86FF00C2F6D9 /* upquest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C98C73F71DDD86FF00C2F6D9 /* upquest.xcdatamodeld */; };
 		C98C73FB1DDD86FF00C2F6D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C98C73FA1DDD86FF00C2F6D9 /* Assets.xcassets */; };
 		C98C73FE1DDD86FF00C2F6D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C98C73FC1DDD86FF00C2F6D9 /* LaunchScreen.storyboard */; };
 		C98C74091DDD86FF00C2F6D9 /* upquestTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98C74081DDD86FF00C2F6D9 /* upquestTests.swift */; };
 		C98C74141DDD86FF00C2F6D9 /* upquestUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98C74131DDD86FF00C2F6D9 /* upquestUITests.swift */; };
-		C98C74231DDD899900C2F6D9 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C98C74211DDD899900C2F6D9 /* Model.xcdatamodeld */; };
-		C98C74251DDD8D9F00C2F6D9 /* ModelInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = C98C74241DDD8D9F00C2F6D9 /* ModelInterface.swift */; };
-		C99FA7E91DE66D41004DEBFD /* StarterModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99FA7E81DE66D41004DEBFD /* StarterModel.swift */; };
-		C99FA7F11DE6E978004DEBFD /* modelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99FA7E61DE66CFF004DEBFD /* modelTests.swift */; };
-		C99FA7F31DE6EA8F004DEBFD /* DatabaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99FA7F21DE6EA8F004DEBFD /* DatabaseModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,11 +35,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C9426E151DE645F80066CB0C /* DatabaseObjects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseObjects.swift; sourceTree = "<group>"; };
 		C98C73ED1DDD86FF00C2F6D9 /* upquest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = upquest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98C73F01DDD86FF00C2F6D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C98C73F21DDD86FF00C2F6D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		C98C73F51DDD86FF00C2F6D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C98C73F81DDD86FF00C2F6D9 /* upquest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = upquest.xcdatamodel; sourceTree = "<group>"; };
 		C98C73FA1DDD86FF00C2F6D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C98C73FD1DDD86FF00C2F6D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C98C73FF1DDD86FF00C2F6D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,11 +49,6 @@
 		C98C740F1DDD86FF00C2F6D9 /* upquestUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = upquestUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C98C74131DDD86FF00C2F6D9 /* upquestUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = upquestUITests.swift; sourceTree = "<group>"; };
 		C98C74151DDD86FF00C2F6D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C98C74221DDD899900C2F6D9 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		C98C74241DDD8D9F00C2F6D9 /* ModelInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelInterface.swift; sourceTree = "<group>"; };
-		C99FA7E61DE66CFF004DEBFD /* modelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = modelTests.swift; path = ../upquestUITests/modelTests.swift; sourceTree = "<group>"; };
-		C99FA7E81DE66D41004DEBFD /* StarterModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarterModel.swift; sourceTree = "<group>"; };
-		C99FA7F21DE6EA8F004DEBFD /* DatabaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DatabaseModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,18 +76,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C9426E121DE6450E0066CB0C /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				C98C74241DDD8D9F00C2F6D9 /* ModelInterface.swift */,
-				C99FA7F21DE6EA8F004DEBFD /* DatabaseModel.swift */,
-				C99FA7E81DE66D41004DEBFD /* StarterModel.swift */,
-				C98C74211DDD899900C2F6D9 /* Model.xcdatamodeld */,
-				C9426E151DE645F80066CB0C /* DatabaseObjects.swift */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
 		C98C73E41DDD86FF00C2F6D9 = {
 			isa = PBXGroup;
 			children = (
@@ -121,13 +99,13 @@
 		C98C73EF1DDD86FF00C2F6D9 /* upquest */ = {
 			isa = PBXGroup;
 			children = (
-				C9426E121DE6450E0066CB0C /* Model */,
 				C98C73F01DDD86FF00C2F6D9 /* AppDelegate.swift */,
 				C98C73F21DDD86FF00C2F6D9 /* ViewController.swift */,
 				C98C73F41DDD86FF00C2F6D9 /* Main.storyboard */,
 				C98C73FA1DDD86FF00C2F6D9 /* Assets.xcassets */,
 				C98C73FC1DDD86FF00C2F6D9 /* LaunchScreen.storyboard */,
 				C98C73FF1DDD86FF00C2F6D9 /* Info.plist */,
+				C98C73F71DDD86FF00C2F6D9 /* upquest.xcdatamodeld */,
 			);
 			path = upquest;
 			sourceTree = "<group>";
@@ -136,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				C98C74081DDD86FF00C2F6D9 /* upquestTests.swift */,
-				C99FA7E61DE66CFF004DEBFD /* modelTests.swift */,
 				C98C740A1DDD86FF00C2F6D9 /* Info.plist */,
 			);
 			path = upquestTests;
@@ -285,13 +262,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C98C74251DDD8D9F00C2F6D9 /* ModelInterface.swift in Sources */,
 				C98C73F31DDD86FF00C2F6D9 /* ViewController.swift in Sources */,
 				C98C73F11DDD86FF00C2F6D9 /* AppDelegate.swift in Sources */,
-				C99FA7E91DE66D41004DEBFD /* StarterModel.swift in Sources */,
-				C9426E161DE645F80066CB0C /* DatabaseObjects.swift in Sources */,
-				C99FA7F31DE6EA8F004DEBFD /* DatabaseModel.swift in Sources */,
-				C98C74231DDD899900C2F6D9 /* Model.xcdatamodeld in Sources */,
+				C98C73F91DDD86FF00C2F6D9 /* upquest.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +273,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C98C74091DDD86FF00C2F6D9 /* upquestTests.swift in Sources */,
-				C99FA7F11DE6E978004DEBFD /* modelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -537,7 +509,6 @@
 				C98C741A1DDD86FF00C2F6D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 		C98C741B1DDD86FF00C2F6D9 /* Build configuration list for PBXNativeTarget "upquestTests" */ = {
 			isa = XCConfigurationList;
@@ -546,7 +517,6 @@
 				C98C741D1DDD86FF00C2F6D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 		C98C741E1DDD86FF00C2F6D9 /* Build configuration list for PBXNativeTarget "upquestUITests" */ = {
 			isa = XCConfigurationList;
@@ -555,19 +525,17 @@
 				C98C74201DDD86FF00C2F6D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		C98C74211DDD899900C2F6D9 /* Model.xcdatamodeld */ = {
+		C98C73F71DDD86FF00C2F6D9 /* upquest.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				C98C74221DDD899900C2F6D9 /* Model.xcdatamodel */,
+				C98C73F81DDD86FF00C2F6D9 /* upquest.xcdatamodel */,
 			);
-			currentVersion = C98C74221DDD899900C2F6D9 /* Model.xcdatamodel */;
-			name = Model.xcdatamodeld;
-			path = ../Model.xcdatamodeld;
+			currentVersion = C98C73F81DDD86FF00C2F6D9 /* upquest.xcdatamodel */;
+			path = upquest.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
