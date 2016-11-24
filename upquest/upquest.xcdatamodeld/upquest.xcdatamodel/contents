@@ -3,57 +3,68 @@
     <entity name="AnswerChoice" representedClassName="AnswerChoice" syncable="YES" codeGenerationType="class">
         <attribute name="isCorrect" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Question" inverseName="answerChoices" inverseEntity="Question" syncable="YES"/>
+        <relationship name="studentAnswer" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentAnswer" inverseName="answer" inverseEntity="StudentAnswer" syncable="YES"/>
     </entity>
     <entity name="Course" representedClassName="Course" syncable="YES" codeGenerationType="class">
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" syncable="YES"/>
-        <relationship name="student" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Student" syncable="YES"/>
+        <relationship name="quizzes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Quiz" inverseName="courses" inverseEntity="Quiz" syncable="YES"/>
+        <relationship name="students" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Student" inverseName="courses" inverseEntity="Student" syncable="YES"/>
+        <relationship name="teacher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Teacher" inverseName="courses" inverseEntity="Teacher" syncable="YES"/>
     </entity>
     <entity name="Directory" representedClassName="Directory" syncable="YES" codeGenerationType="class">
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" syncable="YES"/>
+        <relationship name="quizzes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Quiz" inverseName="directories" inverseEntity="Quiz" syncable="YES"/>
+        <relationship name="teacher" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Teacher" inverseName="directories" inverseEntity="Teacher" syncable="YES"/>
     </entity>
     <entity name="Question" representedClassName="Question" syncable="YES" codeGenerationType="class">
         <attribute name="difficulty" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="popularity" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="answerChoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AnswerChoice" syncable="YES"/>
-        <relationship name="correctChoice" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AnswerChoice" syncable="YES"/>
-        <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag" syncable="YES"/>
+        <relationship name="answerChoices" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="AnswerChoice" inverseName="question" inverseEntity="AnswerChoice" syncable="YES"/>
+        <relationship name="quizzes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Quiz" inverseName="questions" inverseEntity="Quiz" syncable="YES"/>
+        <relationship name="studentAnswers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentAnswer" inverseName="question" inverseEntity="StudentAnswer" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Tag" inverseName="questions" inverseEntity="Tag" syncable="YES"/>
     </entity>
     <entity name="Quiz" representedClassName="Quiz" syncable="YES" codeGenerationType="class">
-        <attribute name="name" optional="YES" syncable="YES"/>
-        <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Question" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="courses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="quizzes" inverseEntity="Course" syncable="YES"/>
+        <relationship name="directories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Directory" inverseName="quizzes" inverseEntity="Directory" syncable="YES"/>
+        <relationship name="questions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Question" inverseName="quizzes" inverseEntity="Question" syncable="YES"/>
+        <relationship name="studentAnswers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentAnswer" inverseName="quiz" inverseEntity="StudentAnswer" syncable="YES"/>
     </entity>
     <entity name="Student" representedClassName="Student" syncable="YES" codeGenerationType="class">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="courses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="students" inverseEntity="Course" syncable="YES"/>
+        <relationship name="studentAnswers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentAnswer" inverseName="student" inverseEntity="StudentAnswer" syncable="YES"/>
     </entity>
     <entity name="StudentAnswer" representedClassName="StudentAnswer" syncable="YES" codeGenerationType="class">
-        <relationship name="answer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AnswerChoice" syncable="YES"/>
-        <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Question" syncable="YES"/>
-        <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" syncable="YES"/>
-        <relationship name="student" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Student" syncable="YES"/>
+        <relationship name="answer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AnswerChoice" inverseName="studentAnswer" inverseEntity="AnswerChoice" syncable="YES"/>
+        <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Question" inverseName="studentAnswers" inverseEntity="Question" syncable="YES"/>
+        <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" inverseName="studentAnswers" inverseEntity="Quiz" syncable="YES"/>
+        <relationship name="student" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Student" inverseName="studentAnswers" inverseEntity="Student" syncable="YES"/>
     </entity>
     <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="questions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Question" inverseName="tags" inverseEntity="Question" syncable="YES"/>
     </entity>
     <entity name="Teacher" representedClassName="Teacher" syncable="YES" codeGenerationType="class">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="course" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Course" syncable="YES"/>
-        <relationship name="directory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Directory" syncable="YES"/>
+        <relationship name="courses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="teacher" inverseEntity="Course" syncable="YES"/>
+        <relationship name="directories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Directory" inverseName="teacher" inverseEntity="Directory" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Teacher" positionX="-225" positionY="-288" width="128" height="103"/>
-        <element name="Tag" positionX="-189" positionY="264" width="128" height="60"/>
-        <element name="Question" positionX="90" positionY="68" width="128" height="148"/>
-        <element name="Course" positionX="7" positionY="-252" width="128" height="90"/>
-        <element name="AnswerChoice" positionX="-189" positionY="159" width="128" height="75"/>
-        <element name="Student" positionX="-137" positionY="-136" width="128" height="73"/>
-        <element name="Quiz" positionX="90" positionY="-45" width="128" height="73"/>
-        <element name="Directory" positionX="-414" positionY="-72" width="128" height="73"/>
+        <element name="AnswerChoice" positionX="-189" positionY="159" width="128" height="103"/>
+        <element name="Course" positionX="7" positionY="-252" width="128" height="103"/>
+        <element name="Directory" positionX="-414" positionY="-72" width="128" height="88"/>
+        <element name="Question" positionX="115" positionY="92" width="128" height="163"/>
+        <element name="Quiz" positionX="90" positionY="-45" width="128" height="118"/>
+        <element name="Student" positionX="-137" positionY="-136" width="128" height="103"/>
         <element name="StudentAnswer" positionX="-144" positionY="23" width="128" height="103"/>
+        <element name="Tag" positionX="-189" positionY="264" width="128" height="73"/>
+        <element name="Teacher" positionX="-236" positionY="-288" width="128" height="103"/>
     </elements>
 </model>
