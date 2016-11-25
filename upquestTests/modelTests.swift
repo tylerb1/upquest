@@ -27,9 +27,14 @@ class modelTests: XCTestCase {
         
     }
     
-    func testGetQuiz(){
-        let model = StarterModel()
-        XCTAssert(model.getQuiz(quizID: "abc").getID() == 5)
+    func testCreateTeacher(){
+        let model = DatabaseModel(id: "1")
+        model.createTeacher(lastName: "Smith", firstName: "Jane")
+        let result = model.getAllTeachers()
+        print(result.count)
+        print(result[0].firstName!)
+        print(result[0].lastName!)
+        XCTAssert(true)
     }
     
 }
