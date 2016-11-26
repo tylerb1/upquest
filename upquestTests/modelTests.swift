@@ -11,9 +11,13 @@ import XCTest
 
 class modelTests: XCTestCase {
     
+    var model = DatabaseModel(teacherID:"1")
+    
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        model.removeAll()
+        model = DatabaseModel(teacherID:"1")
     }
     
     override func tearDown() {
@@ -27,14 +31,97 @@ class modelTests: XCTestCase {
         
     }
     
-    func testCreateTeacher(){
-        let model = DatabaseModel(id: "1")
-        model.createTeacher(lastName: "Smith", firstName: "Jane")
-        let result = model.getAllTeachers()
-        print(result.count)
-        print(result[0].firstName!)
-        print(result[0].lastName!)
-        XCTAssert(true)
+    private func createTestData(){
+        let teacher = model.createTeacher(lastName: "Smith", firstName: "Jane", id: "1")
+        let student = model.createStudent(lastName: "Jackson", firstName: "Betty")
+        let course = model.createCourse(title: "Algebra", teacher: teacher!, students: [student!])
+        let question = model.createQuestion(text: "What is the angle at x?",
+                                            imageURL: "", explanation: "",
+                                            answers: ["5","10","15","20"], correct: 3, tags : [])
+        let quiz = model.createQuiz(name: "Angles", questions: [question!])
+        let assignment = model.createAssignment(quiz: quiz!, course: course!)
+        model.setAssignment(assignment: assignment!, assigned: true, dueDate: NSDate.init())
+        let directory = model.createDirectory(title: "allQuizzes")
+        model.addQuizToDirectory(quiz: quiz!, directory: directory!)
     }
     
+    func testGetCourses(){
+        let teacherA = model.getTeacherUser()
+        let teacherB = (model.createTeacher(lastName: "Smith", firstName: "Jane", id: "2"))!
+        let student = (model.createStudent(lastName: "Jackson", firstName: "Betty"))!
+        _ = model.createCourse(title: "Algebra", teacher: teacherA, students: [student])
+        _ = model.createCourse(title: "English", teacher: teacherA, students: [student])
+        _ = model.createCourse(title: "History", teacher: teacherB, students: [student])
+        let result = model.getCourses()
+        XCTAssert(result.count == 2)
+        XCTAssert(result[0].title == "Algebra")
+        XCTAssert(result[1].title == "English")
+    }
+    
+    func testGetStudents(){
+        let teacherA = model.getTeacherUser()
+        let teacherB = (model.createTeacher(lastName: "Smith", firstName: "Jane", id: "2"))!
+        let studentA = (model.createStudent(lastName: "Jackson", firstName: "Betty"))!
+        let studentB = (model.createStudent(lastName: "Jordan", firstName: "Michael"))!
+        let studentC = (model.createStudent(lastName: "Jobs", firstName: "Steve"))!
+        let courseA = model.createCourse(title: "Algebra", teacher: teacherA, students: [studentA])
+        _ = model.createCourse(title: "English", teacher: teacherA, students: [studentB])
+        _ = model.createCourse(title: "History", teacher: teacherB, students: [studentC])
+        let result = model.getStudents(course: courseA!)
+        XCTAssert(result.count == 1)
+        XCTAssert(result[0].lastName == "Jackson")
+        XCTAssert(result[1].firstName == "Betty")
+    }
+    
+    func testRemoveAll(){
+        createTestData()
+        model.removeAll()
+        XCTAssert(model.getAllTeachers().count == 0)
+    }
+    
+    func testInit(){
+        let result = model.getAllTeachers()
+        XCTAssert(result.count == 1)
+        XCTAssert(result[0].lastName == "Sandberg")
+        XCTAssert(result[0].firstName == "Sheryl")
+    }
+    
+    func testCreateTeacher(){
+        model.removeAll()
+        let teacher = model.createTeacher(lastName: "Smith", firstName: "Jane", id:"1")
+        XCTAssert(teacher?.lastName == "Smith")
+        XCTAssert(teacher?.firstName == "Jane")
+        
+        let result = model.getAllTeachers()
+        XCTAssert(result.count == 1)
+        XCTAssert(result[0].firstName! == "Jane")
+        XCTAssert(result[0].lastName! == "Smith")
+    }
+    
+    func testCreateCourse(){
+        model.removeAll()
+        let teacher = model.createTeacher(lastName: "Smith", firstName: "Jane", id: "1")
+        let student = model.createStudent(lastName: "Jackson", firstName: "Betty")
+        _ = model.createCourse(title: "Algebra", teacher: teacher!, students: [student!])
+        _ = model.createCourse(title: "English", teacher: teacher!, students: [student!])
+        let result = model.getAllCourses()
+        XCTAssert(result.count == 2)
+        XCTAssert(result[0].title == "Algebra")
+        XCTAssert(result[1].title == "English")
+    }
+    
+    func testCreateStudent(){
+        let student = model.createStudent(lastName: "Jackson", firstName: "Betty")
+        XCTAssert(student?.lastName == "Jackson")
+        XCTAssert(student?.firstName == "Betty")
+        
+        let result = model.getAllStudents()
+        XCTAssert(result.count == 1)
+        XCTAssert(result[0].lastName == "Jackson")
+        XCTAssert(result[0].firstName == "Betty")
+    }
+    
+
+    
+
 }

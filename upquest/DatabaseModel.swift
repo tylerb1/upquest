@@ -13,15 +13,24 @@ import UIKit
 class DatabaseModel : ModelInterface{
     
     let moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    var teacherID = ""
+    var teacherUser : Teacher
     
-    init(id : String){
-        teacherID = id
-    }
-    
-    // Fill database with a few examples to test functions
-    func createTestData(){
-        
+    init(teacherID : String){
+        // Create teacher instance in database if does not exist
+        let fetchRequest : NSFetchRequest<Teacher> = Teacher.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id = %@", teacherID)
+        let result = try? moc.fetch(fetchRequest)
+        assert(result!.count <= 1)
+        if result!.count == 1{
+            teacherUser = result![0]
+        }else{
+            let teacher = NSEntityDescription.insertNewObject(forEntityName: "Teacher", into: moc) as? Teacher
+            teacher?.lastName = "Sandberg"
+            teacher?.firstName = "Sheryl"
+            teacher?.id = teacherID
+            try? moc.save()
+            teacherUser = teacher!
+        }
     }
     
     // Task 1 : Manage Quizzes
@@ -51,7 +60,7 @@ class DatabaseModel : ModelInterface{
     
     func getAssignments(course : Course) -> Array<Assignment>{
         let fetchRequest : NSFetchRequest<Assignment> = Assignment.fetchRequest()
-        fetchRequest.predicate = NSPredicate()
+        fetchRequest.predicate = NSPredicate(format: "course == %@", course)
         let result = try? moc.fetch(fetchRequest)
         return result!
     }
@@ -89,13 +98,13 @@ class DatabaseModel : ModelInterface{
     
     func getStudents(course : Course) -> Array<Student>{
         let fetchRequest : NSFetchRequest<Student> = Student.fetchRequest()
-        fetchRequest.predicate = NSPredicate()
+        fetchRequest.predicate = NSPredicate(format: "ANY courses == %@", course)
         let result = try? moc.fetch(fetchRequest)
         return result!
     }
     
     func createQuestion(text : String, imageURL : String, explanation : String,
-                        answers : Array<String>, correct : Int) -> Question? {
+                        answers : Array<String>, correct : Int, tags : Array<String>) -> Question? {
         assert(correct < answers.count)
         // Save answer choices
         var isCorrect = false
@@ -106,12 +115,26 @@ class DatabaseModel : ModelInterface{
             }else{
                 isCorrect = true
             }
-            if let choice = NSEntityDescription.insertNewObject(forEntityName: "answerChoice", into: moc) as? AnswerChoice {
+            if let choice = NSEntityDescription.insertNewObject(forEntityName: "AnswerChoice", into: moc) as? AnswerChoice {
                 choice.text = answer
                 choice.isCorrect = isCorrect
                 answerObjects.append(choice)
             }
         }
+        // Retrieve existing tag is exists in database - otherwise generate new tag instance
+        var tagObjects : Array<Tag> = []
+        for tagString in tags{
+            let fetchRequest : NSFetchRequest<Tag> = Tag.fetchRequest()
+            let result = try? moc.fetch(fetchRequest)
+            assert(result!.count <= 1)
+            if result!.count == 1{
+                tagObjects.append(result![0])
+            }else{
+                let newTag = createTag(text: tagString)
+                tagObjects.append(newTag!)
+            }
+        }
+        
         // Save question with associated answer choices
         if let question = NSEntityDescription.insertNewObject(forEntityName: "Question", into: moc) as? Question {
             question.text = text
@@ -119,8 +142,19 @@ class DatabaseModel : ModelInterface{
             for object in answerObjects{
                 question.addToAnswerChoices(object)
             }
+            for tag in tagObjects{
+                question.addToTags(tag)
+            }
             try? moc.save()
             return question
+        }
+        return nil
+    }
+    
+    func createTag(text : String) -> Tag?{
+        if let tag = NSEntityDescription.insertNewObject(forEntityName: "Tag", into: moc) as? Tag {
+            tag.text = text
+            return tag
         }
         return nil
     }
@@ -141,13 +175,16 @@ class DatabaseModel : ModelInterface{
     // Task 3 : Visualize quiz results
     func getCourses() -> Array<Course>{
         let fetchRequest : NSFetchRequest<Course> = Course.fetchRequest()
-        fetchRequest.predicate = NSPredicate()
+        fetchRequest.predicate = NSPredicate(format:"teacher == %@", teacherUser)
         let result = try? moc.fetch(fetchRequest)
         return result!
     }
     
-    func getAnswers(student : Student, quiz : Quiz) -> Array<Int>{
-        return []
+    func getAnswers(student : Student, quiz : Quiz) -> Array<AnswerChoice>{
+        let fetchRequest : NSFetchRequest<AnswerChoice> = AnswerChoice.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "studentAnswer.student = %@ AND studentAnswer.quiz = %@", argumentArray: [student, quiz])
+        let result = try? moc.fetch(fetchRequest)
+        return result!
     }
     
     func getClassScoresByQuiz(course : Course) -> (Array<Student>, Array<Quiz>, Array<Array<Double>>){
@@ -161,35 +198,40 @@ class DatabaseModel : ModelInterface{
     
     // Helper functions to initialize some data in the database
     
-    func createTeacher(lastName : String, firstName : String) -> Teacher?{
+    func createTeacher(lastName : String, firstName : String, id : String) -> Teacher?{
         if let teacher = NSEntityDescription.insertNewObject(forEntityName: "Teacher", into: moc) as? Teacher {
             teacher.lastName = lastName
             teacher.firstName = firstName
+            teacher.id = id
             try? moc.save()
             return teacher
         }
         return nil
     }
     
-    func getAllTeachers() -> Array<Teacher>{
-        let request : NSFetchRequest<Teacher> = Teacher.fetchRequest()
-        //request.predicate = NSPredicate()
-        let teachers = try? moc.fetch(request)
-        return teachers!
+    
+    // Used for testing code
+    func executeFetch(fetchRequest : NSFetchRequest<NSFetchRequestResult>) -> Array<Any>?{
+        let result = try? moc.fetch(fetchRequest)
+        return result
     }
     
     /**
      Clears database of all persistent stored objects
     */
     func removeAll(){
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Teacher")
-        request.returnsObjectsAsFaults = false
-        do{
-            let results = try? moc.fetch(request)
-            for managedObject in results!
-            {
-                let managedObjectData = managedObject as! NSManagedObject
-                moc.delete(managedObjectData)
+        let allEntities = ["Teacher","Course","Student","Quiz","Question",
+                           "Assignment","Tag","AnswerChoice","StudentAnswer",
+                           "Directory"]
+        for entity in allEntities{
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: entity)
+            request.returnsObjectsAsFaults = false
+            do{
+                let results = try? moc.fetch(request)
+                for managedObject in results!{
+                    let managedObjectData = managedObject as! NSManagedObject
+                    moc.delete(managedObjectData)
+                }
             }
         }
     }
@@ -216,7 +258,68 @@ class DatabaseModel : ModelInterface{
         }
         return nil
     }
-     
+
+    // Testing and Debugging methods
+    func getTeacherUser() -> Teacher{
+        return teacherUser
+    }
+    
+    func setTeacherUser(teacher : Teacher){
+        teacherUser = teacher
+    }
+    
+    // Getter methods for testing
+    
+    func getAllTeachers() -> Array<Teacher>{
+        let fetchRequest : NSFetchRequest<Teacher> = Teacher.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllCourses() -> Array<Course>{
+        let fetchRequest : NSFetchRequest<Course> = Course.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllStudents() -> Array<Student>{
+        let fetchRequest : NSFetchRequest<Student> = Student.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllQuizzes() -> Array<Quiz>{
+        let fetchRequest : NSFetchRequest<Quiz> = Quiz.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllQuestions() -> Array<Question>{
+        let fetchRequest : NSFetchRequest<Question> = Question.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllAssignments() -> Array<Assignment>{
+        let fetchRequest : NSFetchRequest<Assignment> = Assignment.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllTags() -> Array<Tag>{
+        let fetchRequest : NSFetchRequest<Tag> = Tag.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllAnswerChoices() -> Array<AnswerChoice>{
+        let fetchRequest : NSFetchRequest<AnswerChoice> = AnswerChoice.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllStudentAnswers() -> Array<StudentAnswer>{
+        let fetchRequest : NSFetchRequest<StudentAnswer> = StudentAnswer.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    func getAllDirectories() -> Array<Directory>{
+        let fetchRequest : NSFetchRequest<Directory> = Directory.fetchRequest()
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
 
      
 }

@@ -90,9 +90,10 @@ protocol ModelInterface{
     ///   - explanation: String explanation of answer
     ///   - answers: List of String denoting possible answers
     ///   - correct: Int of index corresponding to correct answer in answers list
+    ///   - tags: List of String denoting tags associated with given question
     /// - Returns: Optional NSObject Question saved to database
     func createQuestion(text : String, imageURL : String, explanation : String,
-                        answers : Array<String>, correct : Int) -> Question?
+                        answers : Array<String>, correct : Int, tags : Array<String>) -> Question?
     
     /// Creates a quiz and saves it to database.
     ///
@@ -114,8 +115,8 @@ protocol ModelInterface{
     /// - Parameters:
     ///   - student: NSObject Student of target student
     ///   - quiz: NSObject Quiz of target Quiz
-    /// - Returns: List of indices of chosen answers for each question in quiz
-    func getAnswers(student : Student, quiz : Quiz) -> Array<Int>
+    /// - Returns: List of NSObject AnswerChoice of chosen answers for each question in quiz
+    func getAnswers(student : Student, quiz : Quiz) -> Array<AnswerChoice>
     
     /// Returns quiz scores to populate matrix view.
     ///

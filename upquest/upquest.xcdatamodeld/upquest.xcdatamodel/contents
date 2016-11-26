@@ -59,12 +59,14 @@
     </entity>
     <entity name="Teacher" representedClassName="Teacher" syncable="YES" codeGenerationType="class">
         <attribute name="firstName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastName" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="courses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Course" inverseName="teacher" inverseEntity="Course" syncable="YES"/>
         <relationship name="directories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Directory" inverseName="teacher" inverseEntity="Directory" syncable="YES"/>
     </entity>
     <elements>
         <element name="AnswerChoice" positionX="-189" positionY="159" width="128" height="103"/>
+        <element name="Assignment" positionX="216" positionY="-198" width="128" height="103"/>
         <element name="Course" positionX="16" positionY="-292" width="128" height="103"/>
         <element name="Directory" positionX="-414" positionY="-72" width="128" height="90"/>
         <element name="Question" positionX="115" positionY="92" width="128" height="178"/>
@@ -72,7 +74,6 @@
         <element name="Student" positionX="-137" positionY="-136" width="128" height="103"/>
         <element name="StudentAnswer" positionX="-144" positionY="23" width="128" height="103"/>
         <element name="Tag" positionX="-189" positionY="264" width="128" height="73"/>
-        <element name="Teacher" positionX="-236" positionY="-288" width="128" height="103"/>
-        <element name="Assignment" positionX="216" positionY="-198" width="128" height="103"/>
+        <element name="Teacher" positionX="-236" positionY="-288" width="128" height="120"/>
     </elements>
 </model>
