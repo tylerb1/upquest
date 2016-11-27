@@ -4,7 +4,7 @@
         <attribute name="isCorrect" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Question" inverseName="answerChoices" inverseEntity="Question" syncable="YES"/>
-        <relationship name="studentAnswer" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentAnswer" inverseName="answer" inverseEntity="StudentAnswer" syncable="YES"/>
+        <relationship name="studentAnswers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentAnswer" inverseName="answer" inverseEntity="StudentAnswer" syncable="YES"/>
     </entity>
     <entity name="Assignment" representedClassName="Assignment" syncable="YES" codeGenerationType="class">
         <attribute name="assigned" optional="YES" attributeType="Boolean" usesScalarValueType="YES" syncable="YES"/>
@@ -48,7 +48,7 @@
         <relationship name="studentAnswers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="StudentAnswer" inverseName="student" inverseEntity="StudentAnswer" syncable="YES"/>
     </entity>
     <entity name="StudentAnswer" representedClassName="StudentAnswer" syncable="YES" codeGenerationType="class">
-        <relationship name="answer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AnswerChoice" inverseName="studentAnswer" inverseEntity="AnswerChoice" syncable="YES"/>
+        <relationship name="answer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AnswerChoice" inverseName="studentAnswers" inverseEntity="AnswerChoice" syncable="YES"/>
         <relationship name="question" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Question" inverseName="studentAnswers" inverseEntity="Question" syncable="YES"/>
         <relationship name="quiz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Quiz" inverseName="studentAnswers" inverseEntity="Quiz" syncable="YES"/>
         <relationship name="student" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Student" inverseName="studentAnswers" inverseEntity="Student" syncable="YES"/>
@@ -65,7 +65,7 @@
         <relationship name="directories" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Directory" inverseName="teacher" inverseEntity="Directory" syncable="YES"/>
     </entity>
     <elements>
-        <element name="AnswerChoice" positionX="-189" positionY="159" width="128" height="103"/>
+        <element name="AnswerChoice" positionX="-189" positionY="159" width="128" height="105"/>
         <element name="Assignment" positionX="216" positionY="-198" width="128" height="103"/>
         <element name="Course" positionX="16" positionY="-292" width="128" height="103"/>
         <element name="Directory" positionX="-414" positionY="-72" width="128" height="90"/>

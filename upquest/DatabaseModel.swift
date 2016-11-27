@@ -37,7 +37,7 @@ class DatabaseModel : ModelInterface{
     
     func getDirectoryStructure() -> Array<Directory>{
         let fetchRequest : NSFetchRequest<Directory> = Directory.fetchRequest()
-        fetchRequest.predicate = NSPredicate()
+        fetchRequest.predicate = NSPredicate(format: "teacher == %@", teacherUser)
         let result = try? moc.fetch(fetchRequest)
         return result!
     }
@@ -99,6 +99,13 @@ class DatabaseModel : ModelInterface{
     func getStudents(course : Course) -> Array<Student>{
         let fetchRequest : NSFetchRequest<Student> = Student.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "ANY courses == %@", course)
+        let result = try? moc.fetch(fetchRequest)
+        return result!
+    }
+    
+    func getQuizzes(course : Course) -> Array<Quiz>{
+        let fetchRequest : NSFetchRequest<Quiz> = Quiz.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "ANY courses.course == %@", course)
         let result = try? moc.fetch(fetchRequest)
         return result!
     }
@@ -182,21 +189,43 @@ class DatabaseModel : ModelInterface{
     
     func getAnswers(student : Student, quiz : Quiz) -> Array<AnswerChoice>{
         let fetchRequest : NSFetchRequest<AnswerChoice> = AnswerChoice.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "studentAnswer.student = %@ AND studentAnswer.quiz = %@", argumentArray: [student, quiz])
+        fetchRequest.predicate = NSPredicate(format: "(studentAnswers.student) == %@ AND (studentAnswers.quiz == %@)", argumentArray: [student, quiz])
         let result = try? moc.fetch(fetchRequest)
         return result!
     }
     
     func getClassScoresByQuiz(course : Course) -> (Array<Student>, Array<Quiz>, Array<Array<Double>>){
-        return ([],[],[[]])
+        let students = getStudents(course: course)
+        let quizzes = getQuizzes(course: course)
+        var scores = Array(repeating: Array(repeating: 0.0, count:quizzes.count), count: students.count)
+        for i in 0..<students.count{
+            for j in 0..<quizzes.count{
+                scores[i][j] = getQuizScore(student: students[i], quiz: quizzes[j])
+            }
+        }
+        return (students, quizzes, scores)
+    }
+    
+    func getQuizScore(student : Student, quiz : Quiz) -> Double{
+        // Not yet implemented - currently returns a random double between 0.0 and 1.0
+        return drand48()
     }
     
     func getClassScoresByTag(course : Course) -> (Array<Tag>, Array<Double>){
-        return ([],[])
+        let fetchRequest : NSFetchRequest<Tag> = Tag.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format:"ANY questions.studentAnswers.quiz.courses.course == %@", course)
+        let resultTags = (try? moc.fetch(fetchRequest))!
+        let scores = Array(repeating: 0.0, count: resultTags.count)
+        return (resultTags, scores)
+    }
+    
+    func getTagScore(student: Student, tag : Tag) -> Double{
+        // Not yet implemented - currently returns a random double between 0.0 and 1.0
+        return drand48()
     }
     
     
-    // Helper functions to initialize some data in the database
+    // Helper functions which are not in the protocol
     
     func createTeacher(lastName : String, firstName : String, id : String) -> Teacher?{
         if let teacher = NSEntityDescription.insertNewObject(forEntityName: "Teacher", into: moc) as? Teacher {
@@ -260,6 +289,7 @@ class DatabaseModel : ModelInterface{
     }
 
     // Testing and Debugging methods
+    
     func getTeacherUser() -> Teacher{
         return teacherUser
     }

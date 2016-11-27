@@ -45,17 +45,47 @@ class modelTests: XCTestCase {
         model.addQuizToDirectory(quiz: quiz!, directory: directory!)
     }
     
-    func testGetCourses(){
-        let teacherA = model.getTeacherUser()
-        let teacherB = (model.createTeacher(lastName: "Smith", firstName: "Jane", id: "2"))!
-        let student = (model.createStudent(lastName: "Jackson", firstName: "Betty"))!
-        _ = model.createCourse(title: "Algebra", teacher: teacherA, students: [student])
-        _ = model.createCourse(title: "English", teacher: teacherA, students: [student])
-        _ = model.createCourse(title: "History", teacher: teacherB, students: [student])
-        let result = model.getCourses()
-        XCTAssert(result.count == 2)
-        XCTAssert(result[0].title == "Algebra")
-        XCTAssert(result[1].title == "English")
+    func testInit(){
+        let result = model.getAllTeachers()
+        XCTAssert(result.count == 1)
+        XCTAssert(result[0].lastName == "Sandberg")
+        XCTAssert(result[0].firstName == "Sheryl")
+    }
+    
+    func testGetDirectoryStructure(){
+        
+    }
+    
+    func testCreateAssignment(){
+        
+    }
+    
+    func testRemoveAssignment(){
+        
+    }
+    
+    func testGetAssignments(){
+        
+    }
+    
+    func testSetAssignment(){
+        
+    }
+    
+    func testQueryQuizRepository(){
+        
+    }
+    
+    func testCreateDirectory(){
+        
+    }
+    
+    func testAddQuizToDirectory(){
+        
+    }
+    
+    func testRemoveQuizFromDirectory(){
+        
     }
     
     func testGetStudents(){
@@ -70,20 +100,48 @@ class modelTests: XCTestCase {
         let result = model.getStudents(course: courseA!)
         XCTAssert(result.count == 1)
         XCTAssert(result[0].lastName == "Jackson")
-        XCTAssert(result[1].firstName == "Betty")
+        XCTAssert(result[0].firstName == "Betty")
     }
+
+    func testCreateQuestion(){
+        
+    }
+    
+    func testCreateQuiz(){
+        
+    }
+
+    func testGetCourses(){
+        let teacherA = model.getTeacherUser()
+        let teacherB = (model.createTeacher(lastName: "Smith", firstName: "Jane", id: "2"))!
+        let student = (model.createStudent(lastName: "Jackson", firstName: "Betty"))!
+        _ = model.createCourse(title: "Algebra", teacher: teacherA, students: [student])
+        _ = model.createCourse(title: "English", teacher: teacherA, students: [student])
+        _ = model.createCourse(title: "History", teacher: teacherB, students: [student])
+        let result = model.getCourses()
+        XCTAssert(result.count == 2)
+        XCTAssert(result[0].title == "Algebra")
+        XCTAssert(result[1].title == "English")
+    }
+    
+    func testGetAnswers(){
+        
+    }
+    
+    func testGetClassScoresByQuiz(){
+        
+    }
+    
+    func testGetClassScoresByTag(){
+        
+    }
+    
+
     
     func testRemoveAll(){
         createTestData()
         model.removeAll()
         XCTAssert(model.getAllTeachers().count == 0)
-    }
-    
-    func testInit(){
-        let result = model.getAllTeachers()
-        XCTAssert(result.count == 1)
-        XCTAssert(result[0].lastName == "Sandberg")
-        XCTAssert(result[0].firstName == "Sheryl")
     }
     
     func testCreateTeacher(){
@@ -121,7 +179,12 @@ class modelTests: XCTestCase {
         XCTAssert(result[0].firstName == "Betty")
     }
     
-
+    func testLanguage(){
+        var arr = Array(repeating: Array(repeating:0, count:10), count: 10)
+        arr[0][0] = 1
+        arr[1][1] = 2
+        print(arr)
+    }
     
 
 }
