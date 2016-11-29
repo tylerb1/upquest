@@ -8,6 +8,10 @@
     -moz-transition: all .35s
 }
 
+.col-sm-3{
+  margin-left: 80px;
+}
+
 header,header .header-content {
     position: relative;
     width: 100%;
